@@ -25,7 +25,7 @@ class LoginViewModel @Inject constructor(
     fun login(id: String, pw: String) {
         //TODO("login 결과값 서버로부터 가져오기")
         //TODO("로그인 성공 시 user data 저장하기")
-        val model = ModelUser("test","","테스트","company","position")
+        val model = ModelUser("test","","테스트","company","position", "")
         saveUserData(Gson().toJson(model))
         _result.postValue(model)
     }

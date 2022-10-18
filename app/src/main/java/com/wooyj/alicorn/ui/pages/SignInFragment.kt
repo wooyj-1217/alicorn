@@ -73,7 +73,8 @@ class SignInFragment : Fragment() {
                             etPw.text.toString(),
                             etName.text.toString(),
                             etCompany.text.toString(),
-                            etPosition.text.toString()
+                            etPosition.text.toString(),
+                            ""      //TODO("이미지 res data 전송 필요.")
                         )
                     )
                 }

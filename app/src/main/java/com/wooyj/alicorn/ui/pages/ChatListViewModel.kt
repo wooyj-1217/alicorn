@@ -34,10 +34,14 @@ class ChatListViewModel @Inject constructor(
                 listOf(
                     ModelChatList(
                         id = 1L,
-                        name = "테스트",
-                        position = "position",
-                        company = "company",
-                        imgUrl = "",
+                        ModelUser(
+                            name = "테스트",
+                            id = "test",
+                            pw = "",
+                            position = "position",
+                            company = "company",
+                            imgUrl = ""
+                        ),
                         lastMessage = "마지막",
                         time = "어제",
                         notReadCount = 84

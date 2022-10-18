@@ -39,7 +39,7 @@ class SignInViewModel @Inject constructor(
             _result.postValue(model)
         } else {
             //실패했을 경우
-            _result.postValue(ModelUser("", "", "", "", ""))
+            _result.postValue(ModelUser("", "", "", "", "", ""))
         }
     }
 

@@ -54,6 +54,9 @@ class MyPageFragment : Fragment() {
             btnLogin.setOnClickListener {
                 findNavController().navigate(R.id.action_myPageFragment_to_loginFragment)
             }
+            btnLogout.setOnClickListener {
+                viewModel.logOut()
+            }
         }
     }
 
@@ -65,6 +68,7 @@ class MyPageFragment : Fragment() {
             tvName.isVisible = loggedIn
             divider.isVisible = loggedIn
             tvPosition.isVisible = loggedIn
+            btnLogout.isVisible = loggedIn
         }
     }
 

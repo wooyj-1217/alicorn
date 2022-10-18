@@ -14,11 +14,11 @@ import kotlinx.coroutines.flow.map
 import java.io.IOException
 
 class UserDataStore(private val context: Context) {
-    private val Context.dataStore  by preferencesDataStore(name = "dataStore")
+    private val Context.dataStore by preferencesDataStore(name = "dataStore")
 
     private val user = stringPreferencesKey("user")
 
-    val userString : Flow<String> = context.dataStore.data
+    val userString: Flow<String> = context.dataStore.data
         .catch { exception ->
             if (exception is IOException) {
                 emit(emptyPreferences())
@@ -26,12 +26,12 @@ class UserDataStore(private val context: Context) {
                 throw exception
             }
         }
-        .map {preferences ->
-            preferences[user] ?: Gson().toJson(ModelUser("","","","",""))
+        .map { preferences ->
+            preferences[user] ?: Gson().toJson(ModelUser("", "", "", "", "", ""))
         }
 
     // String값을 stringKey 키 값에 저장
-    suspend fun setUser(userString : String){
+    suspend fun setUser(userString: String) {
         context.dataStore.edit { preferences ->
             preferences[user] = userString
         }
