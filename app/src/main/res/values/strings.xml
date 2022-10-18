@@ -1,0 +1,21 @@
+<resources>
+    <string name="app_name">alicorn</string>
+    <string name="new_message">새 메시지</string>
+    <string name="message">메시지</string>
+    <string name="mypage">마이페이지</string>
+    <string name="login">로그인</string>
+    <string name="sign_in">회원가입</string>
+    <string name="id">아이디</string>
+    <string name="pw">비밀번호</string>
+    <string name="company">회사</string>
+    <string name="name">이름</string>
+    <string name="position">직책</string>
+    <!-- Strings used for fragments for navigation -->
+    <string name="next">Next</string>
+    <string name="previous">Previous</string>
+    <string name="need_login">로그인 상태가 아닙니다.\n 로그인해주세요.</string>
+    <string name="format_position_company">%s @%s</string>
+
+    <string name="hello_first_fragment">Hello first fragment</string>
+    <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
+</resources>

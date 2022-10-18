@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="item"
+            type="com.wooyj.alicorn.data.model.ModelChatList" />
+
+        <variable
+            name="clickListener"
+            type="com.wooyj.alicorn.ui.adapter.ChatListClickListener" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:clickable="true"
+        android:onClick="@{() -> clickListener.onClick(item)}">
+
+        <androidx.constraintlayout.utils.widget.ImageFilterView
+            android:id="@+id/iv_profile"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            imageLoadByUrlString="@{item.imgUrl}"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:src="@tools:sample/avatars" />
+
+        <TextView
+            android:id="@+id/tv_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:textColor="@color/black"
+            android:textSize="20dp"
+            android:textStyle="bold"
+            android:text="@{item.name}"
+            app:layout_constraintStart_toEndOf="@id/iv_profile"
+            app:layout_constraintTop_toTopOf="@id/iv_profile"
+            tools:text="성하연" />
+
+        <TextView
+            android:id="@+id/tv_position"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="@+id/iv_profile"
+            app:layout_constraintStart_toStartOf="@id/tv_name"
+            android:text="@{@string/format_position_company(item.position, item.company)}"
+            tools:text="UX/UI 디자이너 @레진엔터테인먼트" />
+
+        <TextView
+            android:id="@+id/tv_last_message"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="14dp"
+            android:ellipsize="end"
+            android:text="@{item.lastMessage}"
+            android:maxLines="1"
+            android:textColor="@color/black"
+            android:textSize="17dp"
+            app:layout_constraintEnd_toEndOf="@id/guideline_75"
+            app:layout_constraintStart_toStartOf="@id/tv_name"
+            app:layout_constraintTop_toBottomOf="@+id/iv_profile"
+            tools:text="안녕하세요. 홍로켓님 잘지내셨나요?" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guideline_75"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.75" />
+
+
+        <TextView
+            android:id="@+id/tv_last_message_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="16dp"
+            android:text="@{item.time}"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@id/tv_name"
+            tools:text="어제" />
+
+        <TextView
+            android:id="@+id/tv_not_read_count"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@color/red_400"
+            android:paddingHorizontal="6dp"
+            android:textColor="@color/white"
+            android:textStyle="bold"
+            android:text="@{String.valueOf(item.notReadCount)}"
+            app:layout_constraintBottom_toBottomOf="@id/tv_last_message"
+            app:layout_constraintEnd_toEndOf="@id/tv_last_message_time"
+            app:layout_constraintTop_toTopOf="@id/tv_last_message"
+            tools:text="84" />
+
+        <View
+            android:id="@+id/divider"
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:layout_marginTop="25dp"
+            android:background="@color/grey_400"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="@id/tv_name"
+            app:layout_constraintTop_toBottomOf="@id/tv_last_message" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
