@@ -7,6 +7,7 @@ import androidx.lifecycle.viewModelScope
 import com.google.gson.Gson
 import com.wooyj.alicorn.data.model.ModelUser
 import com.wooyj.alicorn.data.preference.UserDataStore
+import com.wooyj.alicorn.data.repository.AuthRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.flow
@@ -15,6 +16,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class MyPageViewModel @Inject constructor(
+    private val authRepository: AuthRepository,
     private val userDataStore: UserDataStore
 ) : ViewModel() {
 
@@ -27,12 +29,10 @@ class MyPageViewModel @Inject constructor(
     val loggedIn: LiveData<ModelUser>
         get() = _loggedIn
 
-    fun logOut(){
-        viewModelScope.launch {
-            //TODO("로그아웃 처리")
-            userDataStore.setUser(Gson().toJson(ModelUser("", "", "", "", "","")))
-        }
-    }
+    fun logOut(id: String) = authRepository.logoutStream(id)
 
+    fun clearUserData() = viewModelScope.launch {
+        userDataStore.setUser(Gson().toJson(ModelUser("", "", "", "", "", "")))
+    }
 
 }

@@ -8,13 +8,18 @@ import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
+import com.google.gson.Gson
+import com.wooyj.alicorn.BuildConfig
 import com.wooyj.alicorn.R
 import com.wooyj.alicorn.data.model.ModelChatContent
+import com.wooyj.alicorn.data.model.Status
 import com.wooyj.alicorn.databinding.FragmentChatDetailBinding
 import com.wooyj.alicorn.ui.adapter.ChatDetailAdapter
 import com.wooyj.alicorn.ui.adapter.ChatListAdapter
 import com.wooyj.alicorn.ui.adapter.ChatListClickListener
 import dagger.hilt.android.AndroidEntryPoint
+import io.socket.client.IO
+import io.socket.client.Socket
 
 /**
  *
@@ -33,6 +38,8 @@ class ChatDetailFragment : Fragment() {
 
     private val viewModel: ChatDetailViewModel by viewModels()
 
+
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -45,18 +52,32 @@ class ChatDetailFragment : Fragment() {
         return binding.root
     }
 
+
     private fun setRecyclerViewAdapter() {
         adapter = ChatDetailAdapter()
         binding.rvChatContent.adapter = adapter
     }
 
+    /**
+     *
+     * 소켓통신 시에는 필요가 없다.
+     *
+     * ui 확인용 (fake data)
+     *
+     */
     private fun observeViewModel() {
         viewModel.apply {
             res.observe(viewLifecycleOwner) {
-                val beforeListSize = adapter.currentList.size
-                adapter.submitList(it.data!!.toMutableList())
-                if (beforeListSize < it.data!!.size) {
-                    binding.rvChatContent.smoothScrollToPosition(it.data!!.size - 1)
+                when (it.status) {
+                    Status.SUCCESS -> {
+                        val beforeListSize = adapter.currentList.size
+                        adapter.submitList(it.data!!.toMutableList())
+                        if (beforeListSize < it.data!!.size) {
+                            binding.rvChatContent.smoothScrollToPosition(it.data!!.size - 1)
+                        }
+                    }
+                    Status.ERROR -> {}
+                    Status.LOADING -> {}
                 }
             }
         }
@@ -84,9 +105,20 @@ class ChatDetailFragment : Fragment() {
                         viewModel.model.id,
                         etMessage.text.toString(),
                         System.currentTimeMillis(),
-                        true
                     )
                 )
+                /**
+                 *
+                 * 소켓서버 통신 시
+                 *
+                 */
+//                send(
+//                    ModelChatContent(
+//                        viewModel.model.id,
+//                        etMessage.text.toString(),
+//                        System.currentTimeMillis(),
+//                    )
+//                )
                 etMessage.setText("")
             }
         }

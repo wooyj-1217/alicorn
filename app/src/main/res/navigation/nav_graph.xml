@@ -22,7 +22,7 @@
         android:name="com.wooyj.alicorn.ui.pages.ChatDetailFragment"
         tools:layout="@layout/fragment_chat_detail">
         <argument
-            android:name="id"
+            android:name="chatId"
             app:argType="long"/>
         <argument
             android:name="name"
@@ -72,6 +72,11 @@
             app:popUpToInclusive="false"
             app:popUpTo="@id/myPageFragment"
             app:destination="@id/myPageFragment" />
+        <action
+            android:id="@+id/action_signInFragment_to_loginFragment"
+            app:destination="@id/loginFragment"
+            app:popUpTo="@id/loginFragment"
+            app:popUpToInclusive="false" />
     </fragment>
 
 </navigation>

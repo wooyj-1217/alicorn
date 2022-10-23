@@ -4,5 +4,5 @@ data class ModelChatContent(
     val userId : String,
     val content : String,
     val time : Long,
-    val isMy : Boolean
+    val isMy : Boolean = true
 )

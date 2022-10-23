@@ -45,7 +45,7 @@ class ChatListFragment : Fragment() {
 
     private fun setRecyclerViewAdapter(){
         adapter = ChatListAdapter(ChatListClickListener { data->
-            val action = ChatListFragmentDirections.actionChatListFragmentToChatDetailFragment(data.id, data.user.name, data.user.position, data.user.company)
+            val action = ChatListFragmentDirections.actionChatListFragmentToChatDetailFragment(data.chatId, data.user.name, data.user.position, data.user.company)
             findNavController().navigate(action)
         })
         binding.rvChatList.adapter = adapter

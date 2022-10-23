@@ -6,13 +6,16 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.wooyj.alicorn.R
 import com.wooyj.alicorn.data.model.ModelUser
+import com.wooyj.alicorn.data.model.Status
 import com.wooyj.alicorn.databinding.FragmentSignInBinding
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
@@ -39,13 +42,6 @@ class SignInFragment : Fragment() {
             valid.observe(viewLifecycleOwner) {
                 binding.btnSignIn.isEnabled = it
             }
-            result.observe(viewLifecycleOwner) {
-                if (it.id == "") {
-                    //TODO("가입 실패 시 처리해야 함.")
-                } else {
-                    findNavController().navigate(R.id.action_signInFragment_to_myPageFragment)
-                }
-            }
         }
     }
 
@@ -66,7 +62,7 @@ class SignInFragment : Fragment() {
                 findNavController().popBackStack()
             }
             btnSignIn.setOnClickListener {
-                CoroutineScope(Dispatchers.IO).launch {
+                lifecycleScope.launch {
                     viewModel.signIn(
                         ModelUser(
                             etId.text.toString(),
@@ -76,11 +72,18 @@ class SignInFragment : Fragment() {
                             etPosition.text.toString(),
                             ""      //TODO("이미지 res data 전송 필요.")
                         )
-                    )
+                    ).collect {
+                        when(it.status){
+                            Status.SUCCESS->{
+                                findNavController().navigate(R.id.action_signInFragment_to_loginFragment)
+                            }
+                            Status.LOADING->{}
+                            Status.ERROR->{}
+                        }
+                    }
                 }
             }
         }
     }
-
 
 }

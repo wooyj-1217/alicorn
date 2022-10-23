@@ -12,7 +12,11 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.map
 import java.io.IOException
-
+/**
+ *
+ * preference data store. 로그인 후 필요한 user data를 저장하기 위해 작성하였다.
+ *
+ */
 class UserDataStore(private val context: Context) {
     private val Context.dataStore by preferencesDataStore(name = "dataStore")
 

@@ -6,10 +6,15 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
+import com.google.gson.Gson
 import com.wooyj.alicorn.R
+import com.wooyj.alicorn.data.model.Status
 import com.wooyj.alicorn.databinding.FragmentLoginBinding
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class LoginFragment : Fragment() {
@@ -25,28 +30,38 @@ class LoginFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         _binding = FragmentLoginBinding.inflate(inflater, container, false)
-        observeViewModel()
         initEvent()
         return binding.root
     }
 
-    private fun observeViewModel(){
-        viewModel.apply {
-            result.observe(viewLifecycleOwner){
-                if(it.id != ""){
-                    findNavController().popBackStack()
-                }
-            }
-        }
-    }
-
-    private fun initEvent(){
+    private fun initEvent() {
         binding.apply {
             btnClose.setOnClickListener {
                 findNavController().popBackStack()
             }
             btnLogin.setOnClickListener {
-                viewModel.login(etId.text.toString(), etPw.text.toString())
+                lifecycleScope.launch {
+                    viewModel.login(etId.text.toString(), etPw.text.toString()).collect {
+                        when (it.status) {
+                            Status.LOADING -> {}
+                            Status.SUCCESS -> {
+                                if (it.data != null) {
+                                    //로그인 성공 시
+                                    val job = viewModel.saveUserData(Gson().toJson(it.data!!))
+                                    job.join()
+                                    if(job.isCompleted) {
+                                        findNavController().navigate(R.id.action_loginFragment_to_myPageFragment)
+                                    }
+                                } else {
+                                    //fake data 로그인 실패 시 상황
+                                }
+                            }
+                            Status.ERROR -> {
+                                //실제 로그인 실패 시 (네트워크 에러, 에러코드로 넘어올 경우 처리해야됨.)
+                            }
+                        }
+                    }
+                }
             }
             tvSignIn.setOnClickListener {
                 findNavController().navigate(R.id.action_loginFragment_to_signInFragment)

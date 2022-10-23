@@ -16,7 +16,7 @@ class ChatListClickListener(val clickListener: (data: ModelChatList) -> Unit) {
 
 class ChatListDiffCallBack : DiffUtil.ItemCallback<ModelChatList>() {
     override fun areItemsTheSame(oldItem: ModelChatList, newItem: ModelChatList): Boolean =
-        oldItem.id == newItem.id
+        oldItem.chatId == newItem.chatId
 
     override fun areContentsTheSame(oldItem: ModelChatList, newItem: ModelChatList): Boolean =
         oldItem == newItem

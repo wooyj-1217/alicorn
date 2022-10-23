@@ -1,9 +1,9 @@
 package com.wooyj.alicorn.data.model
 
 enum class Status {
-    SUCCESS,
-    ERROR,
-    LOADING
+    SUCCESS,    // 서버 통신에 성공했을 때
+    ERROR,      // 서버 통신에 실패했을 때 (Network Error.. etc)
+    LOADING     // 서버 통신 요청시작 ~ 수신 값 받기 전까지
 }
 
 /**

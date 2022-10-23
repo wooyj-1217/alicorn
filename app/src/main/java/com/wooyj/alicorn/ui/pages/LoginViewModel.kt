@@ -7,30 +7,21 @@ import androidx.lifecycle.viewModelScope
 import com.google.gson.Gson
 import com.wooyj.alicorn.data.model.ModelUser
 import com.wooyj.alicorn.data.preference.UserDataStore
+import com.wooyj.alicorn.data.repository.AuthRepository
+import com.wooyj.alicorn.data.repository.fake.FakeAuthRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
 class LoginViewModel @Inject constructor(
+    private val authRepository: AuthRepository,
     private val userDataStore: UserDataStore
 ) : ViewModel() {
 
+    fun login(id: String, pw: String) = authRepository.loginStream(id, pw)
 
-    private var _result: MutableLiveData<ModelUser> = MutableLiveData()
-    val result: LiveData<ModelUser>
-        get() = _result
-
-
-    fun login(id: String, pw: String) {
-        //TODO("login 결과값 서버로부터 가져오기")
-        //TODO("로그인 성공 시 user data 저장하기")
-        val model = ModelUser("test","","테스트","company","position", "")
-        saveUserData(Gson().toJson(model))
-        _result.postValue(model)
-    }
-
-    private fun saveUserData(userString: String) = viewModelScope.launch {
+    fun saveUserData(userString: String) = viewModelScope.launch {
         userDataStore.setUser(userString)
     }
 }
