@@ -2,13 +2,19 @@
 과제전형을 위하여 만든 repo
 
 ## Overview
-* 서버 데이터가 어떻게 올지 생각하며 UI단 작성하였음.
+* 서버 데이터가 어떻게 올 지 생각하며 UI단 작성하였음.
   * 가짜 데이터를 사용하였음.
 * databinding, MVVM 패턴 사용.
 
 ## folder 구성
 * data
+  * di : repository di용
   * model : ui 단에 쓰일 data class를 모아놓았음
+  * network
+    * NetworkDataSource.kt : base interface
+    * di : Dispatcher.IO di용
+    * fake : 가짜 데이터용
+    * retrofit : Http 통신을 한다고 가정하고 작성.
   * preference : 로그인에 성공한 경우 return 값으로 돌려받은 userData를 저장하기 위한 preference DataStore.
 * ui
   * adapter : RecyclerView에 부착하는 adapter들을 모아놓았음
@@ -21,12 +27,13 @@
     * SignInFragment : 회원가입 화면
   * util : BindingAdapter.kt(특정 값이 뷰에 어떻게 보일지를 조정해주는 function을 모아놓음.)
 
-## 정리가 안된 부분
-* 서버부착 X. 가짜데이터를 심어놓았음. //TODO 를 활용하여 서버 부착 시 필요한 부분들을 틈틈히 써놓긴 하였음.
-* 가짜 데이터를 넣어도 서버가 붙을것을 생각해서 interface를 작성하고 이를 상속받아서 fake 데이터를 구성하는 식으로 갔어야 했는데 여력이 없었음. 이에 대해 한번 더 정리가 필요함.
-* 채팅방 상세화면 부분에 데이터를 1초마다 interval로 data를 가져오도록 설정했는데, 소켓통신일 경우에는 방법을 달리하여 작성하여야 함.
-* UI 정확하게 구현하지 않았음. 캡처화면을 참고하였으나 디테일은 다시 가다듬어야 함.
-
-
-
+## 구현시도 내역
+* login : id : test/ pw : 1234 입력 시 login 되어보이도록 fake data 작성
+* chatDetail : socket.io 사용해서 socket client 통신 코드 작성 (서버가 없어서 동작하진 않음).
+* chatList : fake data list를 받아와서 데이터바인딩 처리.
+* findUser : fake data로 연결된 유저 리스트를 가져오고, 텍스트 입력 후 키보드 엔터 선택 시 연결된 유저 리스트 데이터에서 filtering 된 list 가져오도록 함.
+* signIn : 회원가입 선택 시 무조건 넘어가도록 처리하였음.
+* profile 
+  * Preference DataStore에 저장된 User가 있으면 profile을 보여주고, 없을 경우 로그인 하라는 화면이 나옴.
+  * 로그아웃 시 preference DataStore의 데이터 제거.
 
